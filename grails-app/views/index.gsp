@@ -28,9 +28,24 @@
 					lng: position.coords.longitude
 				};
 				infoWindow.setPosition(pos);
-				infoWindow.setContent('lat: ' + String(pos.lat) + ', lng: ' + String(pos.lng));
+                var theUrl = "https://maps.googleapis.com/maps/api/geocode/json?latlng="+String(pos.lat)+","+String(pos.lng)+"";
+
+                var response = httpGet(theUrl);
+                //var parsedJSON = JSON.parse(response);
+
+                var json = response,
+                        obj = JSON.parse(json);
+
+                alert(obj.results[0]);
+
+                //var partial = response.results[0].formatted_address;
+                infoWindow.setContent(theUrl);
 				map.setCenter(pos);
-			}, function() {
+                //window.alert(response);
+                //window.alert(partial);
+                //window.alert(partial);
+
+            }, function() {
 				handleLocationError(true, infoWindow, map.getCenter());
 			});
 		} else {
@@ -38,6 +53,14 @@
 			handleLocationError(false, infoWindow, map.getCenter());
 		}
 	}
+
+    function httpGet(theUrl)
+    {
+        var xmlHttp = new XMLHttpRequest();
+        xmlHttp.open( "GET", theUrl, false ); // false for synchronous request
+        xmlHttp.send( null );
+        return xmlHttp.responseText;
+    }
 
 	function handleLocationError(browserHasGeolocation, infoWindow, pos) {
 		infoWindow.setPosition(pos);
