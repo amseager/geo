@@ -29,21 +29,11 @@
 				};
 				infoWindow.setPosition(pos);
                 var theUrl = "https://maps.googleapis.com/maps/api/geocode/json?latlng="+String(pos.lat)+","+String(pos.lng)+"";
-
                 var response = httpGet(theUrl);
-                //var parsedJSON = JSON.parse(response);
-
                 var json = response,
-                        obj = JSON.parse(json);
-
-                alert(obj.results[0]);
-
-                //var partial = response.results[0].formatted_address;
-                infoWindow.setContent(theUrl);
+                       obj = JSON.parse(json);
+                infoWindow.setContent(String(obj.results[0].formatted_address));
 				map.setCenter(pos);
-                //window.alert(response);
-                //window.alert(partial);
-                //window.alert(partial);
 
             }, function() {
 				handleLocationError(true, infoWindow, map.getCenter());
